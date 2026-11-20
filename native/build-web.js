@@ -6,5 +6,5 @@ const out = path.join(__dirname, 'www');
 fs.rmSync(out, { recursive: true, force: true });
 fs.mkdirSync(out, { recursive: true });
 fs.copyFileSync(path.join(root, 'index.html'), path.join(out, 'index.html'));
-fs.cpSync(path.join(root, 'fonts'), path.join(out, 'fonts'), { recursive: true });
+for (const d of ['fonts', 'audio']) fs.cpSync(path.join(root, d), path.join(out, d), { recursive: true });
 console.log('build-web: wrote', out);

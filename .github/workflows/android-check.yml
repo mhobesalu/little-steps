@@ -2,7 +2,7 @@
 name: Android build check
 on:
   push:
-    paths: ['index.html', 'fonts/**', 'native/**', '.github/workflows/android-*.yml']
+    paths: ['index.html', 'fonts/**', 'audio/**', 'native/**', '.github/workflows/android-*.yml']
   workflow_dispatch:
 jobs:
   build:

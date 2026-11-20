@@ -275,7 +275,16 @@ const suggest=()=>{const h=new Date().getHours();return h<11?'morning':h>=17?'be
 /* ---------- Sound and voice: soft, optional ---------- */
 let AC;
 const tone=(notes)=>{if(!S.sound)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const n0=AC.currentTime;notes.forEach(([f,d,w],i)=>{const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f;const s=n0+d;g.gain.setValueAtTime(0,s);g.gain.linearRampToValueAtTime(.12,s+.02);g.gain.exponentialRampToValueAtTime(.001,s+(w||.5));o.connect(g).connect(AC.destination);o.start(s);o.stop(s+(w||.5)+.05)})}catch(e){}};
-const say=(txt)=>{if(!S.speak||!window.speechSynthesis)return;try{const code=VOICE[S.lang]||S.lang,vs=speechSynthesis.getVoices(),v=vs.find(x=>x.lang.toLowerCase().startsWith(code));if(!v&&S.lang!=='en')return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);if(v){u.voice=v;u.lang=v.lang}u.rate=.9;speechSynthesis.speak(u)}catch(e){}};
+/* Voice: recorded clips (warm female voices, audio/<lang>_<card>.mp3) for every built-in card and phrase.
+   Text a parent typed is read by the device's own voice, picking a female voice where the device has one. */
+const CLIP_LANGS=['en','et'];
+const FEMALE=/samantha|karen|moira|tessa|serena|ava|allison|susan|victoria|fiona|kate|jenny|aria|emma|sonia|libby|natasha|zira|hazel|female|anu|google uk english female|google us english/i;
+let cur=null;
+const speak=txt=>{if(!window.speechSynthesis)return;try{const code=VOICE[S.lang]||S.lang,vs=speechSynthesis.getVoices().filter(x=>x.lang.toLowerCase().startsWith(code));const v=vs.find(x=>FEMALE.test(x.name)&&!/compact|eloquence/i.test(x.name))||vs[0];if(!v&&S.lang!=='en')return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);if(v){u.voice=v;u.lang=v.lang}u.rate=.88;u.pitch=1.08;speechSynthesis.speak(u)}catch(e){}};
+const say=(txt,key)=>{if(!S.speak)return;try{if(cur){cur.pause();cur=null}window.speechSynthesis?.cancel()}catch(e){}
+ if(key&&CLIP_LANGS.includes(S.lang)){try{cur=new Audio(`audio/${S.lang}_${key}.mp3`);cur.play().catch(()=>speak(txt));return}catch(e){}}
+ speak(txt)};
+const sayStep=s=>s&&say(lab(s),!s.label&&CARDS[s.c]?s.c:null);
 try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
 
 /* ---------- Views ---------- */
@@ -321,13 +330,13 @@ function startTimer(){
   if(f>=1){w.textContent=t('wait');if(!overPlayed){overPlayed=true;if(Date.now()-p.at<s.m*60000+3000)tone([[392,0,.9],[330,.25,1.2]])}}};
  up();tick=setInterval(up,1000);
 }
-function go(id){const rr=R(id);if(!rr||!rr.steps.length)return;if(isLocked(rr))return openUnlock();view={v:'run',id};const p=prog(id);if(p.done){S.prog[id]={i:0,at:Date.now(),done:false}}else if(p.i===0)p.at=Date.now();save();draw(true);const s=R(id).steps[prog(id).i];if(s)say(lab(s))}
+function go(id){const rr=R(id);if(!rr||!rr.steps.length)return;if(isLocked(rr))return openUnlock();view={v:'run',id};const p=prog(id);if(p.done){S.prog[id]={i:0,at:Date.now(),done:false}}else if(p.i===0)p.at=Date.now();save();draw(true);sayStep(R(id).steps[prog(id).i])}
 function complete(){
  const r=R(view.id),p=prog(view.id);
  const st=document.createElement('div');st.className='star';st.innerHTML=svg('star');document.body.appendChild(st);setTimeout(()=>st.remove(),800);
  p.i++;p.at=Date.now();
- if(p.i>=r.steps.length){p.done=true;save();tone([[523,0],[659,.12],[784,.24],[1047,.36,.9]]);setTimeout(()=>{view={v:'cheer',id:view.id};draw()},380);setTimeout(()=>say(t('allDone')),500);return}
- save();tone([[659,0,.4],[880,.1,.6]]);draw(true);say(lab(r.steps[p.i]));
+ if(p.i>=r.steps.length){p.done=true;save();tone([[523,0],[659,.12],[784,.24],[1047,.36,.9]]);setTimeout(()=>{view={v:'cheer',id:view.id};draw()},380);setTimeout(()=>say(t('allDone'),'_allDone'),500);return}
+ save();tone([[659,0,.4],[880,.1,.6]]);draw(true);setTimeout(()=>sayStep(r.steps[p.i]),250);
 }
 
 /* ---------- Grown-up area ---------- */
@@ -478,7 +487,7 @@ app.addEventListener('click',e=>{
  if(a==='unlock')return openUnlock();
  if(a==='home'){view={v:'home'};draw()}
  if(a==='done')complete();
- if(a==='say'){const r=R(view.id),s=r.steps[prog(view.id).i];say(lab(s))}
+ if(a==='say'){const r=R(view.id);sayStep(r.steps[prog(view.id).i])}
  if(a==='mode'){S.listMode=!S.listMode;save();draw()}
  if(a==='again')go(b.dataset.id);
  if(a==='tickrow'){const p=prog(view.id),i=+b.dataset.i;if(i===p.i)complete();else if(i<p.i){p.i=i;p.at=Date.now();save();draw()}}
