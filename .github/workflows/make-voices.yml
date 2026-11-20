@@ -1,0 +1,32 @@
+# Re-records every spoken clip in audio/ with Azure Speech (licensed voices) and commits them.
+# Run it from GitHub: Actions → "Make voices" → Run workflow (pick the branch to update).
+# Needs repository secrets AZURE_SPEECH_KEY and AZURE_SPEECH_REGION (e.g. westeurope).
+name: Make voices
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  voices:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Record clips
+        env:
+          AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
+          AZURE_SPEECH_REGION: ${{ secrets.AZURE_SPEECH_REGION }}
+        run: |
+          if [ -z "$AZURE_SPEECH_KEY" ] || [ -z "$AZURE_SPEECH_REGION" ]; then echo "Add the AZURE_SPEECH_KEY and AZURE_SPEECH_REGION secrets first."; exit 1; fi
+          python3 tools/make_audio.py --force
+      - name: Commit the new clips
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898900+github-actions[bot]@users.noreply.github.com"
+          git add audio
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Re-record voices with Azure Speech"
+          git push
