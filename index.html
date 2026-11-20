@@ -4,9 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Little Steps</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#fff8ee">
 <style>
+@font-face{font-family:'Fredoka';font-style:normal;font-weight:500 700;font-display:swap;src:url(fonts/fredoka-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Fredoka';font-style:normal;font-weight:500 700;font-display:swap;src:url(fonts/fredoka-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Nunito';font-style:normal;font-weight:500 800;font-display:swap;src:url(fonts/nunito-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Nunito';font-style:normal;font-weight:500 800;font-display:swap;src:url(fonts/nunito-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 /* VOICE  calm, warm, for a child and a tired parent: few words, big pictures
    IDEA   the laminated picture-card strip therapists stick on a fridge: one card now, the next card waiting
    PICTURE the current step's card, drawn large, with a soft ring that drains as the gentle timer runs
@@ -24,10 +27,10 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 h1,h2,h3{font-family:Fredoka,Nunito,sans-serif;font-weight:600;line-height:1.05;letter-spacing:-.01em;margin:0}
 #app{height:100%;display:flex;flex-direction:column;padding:max(14px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
 svg.pic{width:100%;height:100%;display:block}
-.home{flex:1;display:grid;grid-template-rows:auto 1fr auto;gap:18px;max-width:1100px;width:100%;margin:0 auto}
+.home{flex:1;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:18px;max-width:1100px;width:100%;margin:0 auto}
 .home h1{font-size:clamp(34px,6vw,52px);padding-top:8px}
 .home h1 small{display:block;font:700 17px/1.4 Nunito,sans-serif;color:var(--soft);margin-top:6px;letter-spacing:0}
-.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-content:center}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:16px;align-content:center;overflow:auto;min-height:0;padding:12px 6px}
 .tile{--c:#ff9f1c;position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 14px 20px;border-radius:28px;background:color-mix(in srgb,var(--c) 22%,var(--panel));box-shadow:inset 0 -6px 0 color-mix(in srgb,var(--c) 45%,transparent);transition:transform .15s}
 .tile:active{transform:scale(.97)}
 .tile .ico{width:min(150px,34vw);aspect-ratio:1;background:var(--card);border-radius:24px;padding:10px;box-shadow:0 3px 0 color-mix(in srgb,var(--c) 50%,#0003)}
@@ -141,18 +144,62 @@ input[type=text],select{font:600 16px Nunito,sans-serif;color:var(--ink);backgro
  .tiles .ico{width:min(110px,20vh)}
 }
 @media(max-width:600px){.tiles{grid-template-columns:minmax(0,1fr);gap:12px;align-content:start}.tile{flex-direction:row;padding:12px 16px 12px 12px;border-radius:24px;text-align:start}.tile .ico{width:86px;border-radius:18px;padding:6px;flex:none}.tile b{text-align:start}.tile .tx{display:flex;flex-direction:column;gap:2px}.tile .badge{top:-9px;left:auto;right:16px;translate:none}}
+img.ph{width:100%;height:100%;display:block;object-fit:cover;border-radius:18%;}
+.card img.ph{border-radius:22px}
+.lki{width:18px;height:18px;flex:none}
+.tile .ico{position:relative}
+.tile .lock{position:absolute;right:-8px;bottom:-8px;width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center}
+.tile .lock .lki{width:22px;height:22px}
+.tile.lk{box-shadow:none;background:color-mix(in srgb,var(--c) 12%,var(--panel))}
+.tile.lk .ico{opacity:.75}
+.tabs button .lki{opacity:.7}
+.tabs .plus{display:grid;place-items:center;font:700 22px/1 Fredoka,sans-serif;background:var(--line)}
+.photo{background:var(--bg);border-radius:16px;padding:8px 4px;display:grid;justify-items:center;gap:4px;font-size:13px;font-weight:800;line-height:1.15;text-align:center;cursor:pointer;position:relative;border:2px dashed var(--soft)}
+.photo input{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer}
+.photo .mini{padding:10px}
+.photo .lki{position:absolute;top:6px;right:6px}
+.upsell{display:flex;align-items:center;gap:12px;width:100%;text-align:start;padding:10px 14px 10px 10px;border-radius:20px;background:color-mix(in srgb,#ffd166 45%,var(--panel));margin-top:12px}
+.set .upsell{margin-top:0}
+.upsell .mini{width:52px;height:52px;flex:none;background:var(--card);border-radius:14px;padding:4px}
+.upsell b{display:block;font:600 19px/1.15 Fredoka,sans-serif}
+.upsell small{display:block;font-weight:700;color:var(--soft);font-size:14px}
+.sws{display:flex;gap:6px;flex-wrap:wrap}
+.sws button{width:36px;height:36px;border-radius:50%;background:var(--c);border:3px solid var(--panel);box-shadow:0 0 0 2px transparent}
+.sws button[aria-pressed=true]{box-shadow:0 0 0 3px var(--ink)}
+.iconbtn{border-radius:16px;padding:3px;border:2px solid var(--line)}
+.iconbtn .mini{display:block;width:52px;height:52px;background:var(--card);border-radius:12px;padding:3px}
+.iconbtn[aria-pressed=true]{border-color:var(--ink)}
+.msg{margin:6px 0 0;font-weight:800;color:#c43c4c;min-height:0}
+.msg:empty{display:none}
+#modal{position:fixed;inset:0;z-index:20;background:#0008;display:grid;place-items:center;padding:16px}
+#modal[hidden]{display:none}
+.unl{border-radius:28px;width:min(100%,440px);display:grid;gap:12px;justify-items:center;text-align:center;padding:24px 22px}
+.unl .big{width:110px;height:110px}
+.unl h2{font-size:30px;display:block}
+.unl .ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;text-align:start;width:100%}
+.unl .ul li{display:flex;gap:10px;align-items:flex-start;font-weight:700}
+.unl .ul svg{width:22px;height:22px;flex:none;margin-top:2px;color:#3aa86b}
+.unl .note{margin:0}
+.unl .pill{width:100%}
+.unl .msg{color:var(--soft)}
+.unl .q{font:600 26px/1.2 Fredoka,sans-serif;margin:4px 0}
+.ans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%}
+.ans button{min-height:60px;border-radius:18px;background:var(--panel);border:2px solid var(--line);font:600 26px/1 Fredoka,sans-serif}
+.lnk{min-height:44px;padding:0 14px;font-weight:800;color:var(--soft);text-decoration:underline}
+.pill:disabled,.ans button:disabled{opacity:.5}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <div id="sheet" hidden></div>
+<div id="modal" hidden></div>
 <script>
 {
 /* ---------- Words. To add a language, copy the "en" block and translate it. ---------- */
 const STR={
-en:{hi:"Hi",hiName:"Hi, {n}!",pick:"Which routine are we doing?",r_morning:"Morning",r_leave:"Going out",r_bed:"Bedtime",now:"Now",doneToday:"All done today",inProg:"Keep going",next:"Next up",last:"Last step!",doneBtn:"Done",wait:"Take your time",allDone:"All done!",well:"Well done, {n}!",well0:"Well done!",home:"Home",again:"Do it again",list:"Show the list",card:"Show one card",grown:"For grown-ups",holdHint:"Grown-ups: hold the button",lang:"Language",name:"Child's name",speak:"Read steps aloud",sound:"Gentle sounds",routines:"Routines",rname:"Routine name",min:"min",noTimer:"No timer",timer:"{m} min",add:"Add a step",addPick:"Tap a picture to add it",up:"Move up",down:"Move down",del:"Remove",reset:"Reset everything",resetSure:"Tap again to reset",close:"Close",privacy:"Everything stays on this device. Nothing is sent anywhere.",restart:"Restart this routine"},
-et:{hi:"Tere",hiName:"Tere, {n}!",pick:"Millise rutiiniga alustame?",r_morning:"Hommik",r_leave:"Kodust välja",r_bed:"Magamaminek",now:"Praegu",doneToday:"Täna tehtud",inProg:"Jätka",next:"Järgmisena",last:"Viimane samm!",doneBtn:"Tehtud",wait:"Võta aega",allDone:"Kõik tehtud!",well:"Tubli, {n}!",well0:"Tubli!",home:"Avaleht",again:"Tee uuesti",list:"Näita nimekirja",card:"Näita ühte kaarti",grown:"Täiskasvanutele",holdHint:"Täiskasvanu: hoia nuppu all",lang:"Keel",name:"Lapse nimi",speak:"Loe sammud ette",sound:"Pehmed helid",routines:"Rutiinid",rname:"Rutiini nimi",min:"min",noTimer:"Taimerita",timer:"{m} min",add:"Lisa samm",addPick:"Puuduta pilti, et see lisada",up:"Liiguta üles",down:"Liiguta alla",del:"Eemalda",reset:"Taasta algseis",resetSure:"Puuduta uuesti, et taastada",close:"Sulge",privacy:"Kõik andmed jäävad sellesse seadmesse. Midagi ei saadeta kuhugi.",restart:"Alusta rutiini otsast"}
+en:{hi:"Hi",hiName:"Hi, {n}!",pick:"Which routine are we doing?",r_morning:"Morning",r_leave:"Going out",r_bed:"Bedtime",now:"Now",doneToday:"All done today",inProg:"Keep going",next:"Next up",last:"Last step!",doneBtn:"Done",wait:"Take your time",allDone:"All done!",well:"Well done, {n}!",well0:"Well done!",home:"Home",again:"Do it again",list:"Show the list",card:"Show one card",grown:"For grown-ups",holdHint:"Grown-ups: hold the button",lang:"Language",name:"Child's name",speak:"Read steps aloud",sound:"Gentle sounds",routines:"Routines",rname:"Routine name",min:"min",noTimer:"No timer",timer:"{m} min",add:"Add a step",addPick:"Tap a picture to add it",up:"Move up",down:"Move down",del:"Remove",reset:"Reset everything",resetSure:"Tap again to reset",close:"Close",privacy:"Everything stays on this device. Nothing is sent anywhere.",restart:"Restart this routine",newR:"New routine",myR:"My routine",colour:"Colour",picture:"Picture",chooseIcon:"Tap a picture for this routine",delR:"Delete this routine",delSure:"Tap again to delete",photo:"Use a photo",myPic:"My picture",empty:"Add the first step",photoErr:"That photo could not be used.",free:"Free",unlockT:"Unlock Little Steps",u1:"Going out, Bedtime and every routine you make",u2:"Make your own routines and chores",u3:"Your own photos as picture cards",uPrice:"One payment. No subscription, no ads.",buy:"Unlock",buyP:"Unlock for {p}",restore:"Restore purchase",notNow:"Not now",talking:"Talking to the store…",checking:"Checking your purchases…",thanks:"Thank you! Everything is unlocked.",pending:"Waiting for approval. It unlocks as soon as it goes through.",noBuy:"No earlier purchase found.",failBuy:"The purchase did not go through.",noStore:"Could not reach the store. Check your connection and try again.",gateT:"Ask a grown-up",gateQ:"What is {a} × {b}?",locked:"Locked"},
+et:{hi:"Tere",hiName:"Tere, {n}!",pick:"Millise rutiiniga alustame?",r_morning:"Hommik",r_leave:"Kodust välja",r_bed:"Magamaminek",now:"Praegu",doneToday:"Täna tehtud",inProg:"Jätka",next:"Järgmisena",last:"Viimane samm!",doneBtn:"Tehtud",wait:"Võta aega",allDone:"Kõik tehtud!",well:"Tubli, {n}!",well0:"Tubli!",home:"Avaleht",again:"Tee uuesti",list:"Näita nimekirja",card:"Näita ühte kaarti",grown:"Täiskasvanutele",holdHint:"Täiskasvanu: hoia nuppu all",lang:"Keel",name:"Lapse nimi",speak:"Loe sammud ette",sound:"Pehmed helid",routines:"Rutiinid",rname:"Rutiini nimi",min:"min",noTimer:"Taimerita",timer:"{m} min",add:"Lisa samm",addPick:"Puuduta pilti, et see lisada",up:"Liiguta üles",down:"Liiguta alla",del:"Eemalda",reset:"Taasta algseis",resetSure:"Puuduta uuesti, et taastada",close:"Sulge",privacy:"Kõik andmed jäävad sellesse seadmesse. Midagi ei saadeta kuhugi.",restart:"Alusta rutiini otsast",newR:"Uus rutiin",myR:"Minu rutiin",colour:"Värv",picture:"Pilt",chooseIcon:"Puuduta pilti selle rutiini jaoks",delR:"Kustuta see rutiin",delSure:"Puuduta uuesti, et kustutada",photo:"Kasuta fotot",myPic:"Minu pilt",empty:"Lisa esimene samm",photoErr:"Seda fotot ei saanud kasutada.",free:"Tasuta",unlockT:"Ava Little Steps",u1:"Kodust välja, Magamaminek ja kõik sinu rutiinid",u2:"Loo oma rutiinid ja kodutööd",u3:"Oma fotod pildikaartideks",uPrice:"Üks makse. Ilma tellimuse ja reklaamideta.",buy:"Ava",buyP:"Ava hinnaga {p}",restore:"Taasta ost",notNow:"Mitte praegu",talking:"Ühendan poega…",checking:"Kontrollin oste…",thanks:"Aitäh! Kõik on avatud.",pending:"Ootab kinnitust. Avaneb kohe, kui see on kinnitatud.",noBuy:"Varasemat ostu ei leitud.",failBuy:"Ost ei õnnestunud.",noStore:"Poega ei saanud ühendust. Kontrolli internetti ja proovi uuesti.",gateT:"Küsi täiskasvanult",gateQ:"Kui palju on {a} × {b}?",locked:"Lukus"}
 };
 const LANGS=[["en","English"],["et","Eesti"]];
 const VOICE={en:"en",et:"et"};
@@ -184,13 +231,20 @@ cuddle:`${SH}<g ${O}><path d="M60 100L24 66Q8 48 22 32q18-16 38 6q20-22 38-6q14 
 water:`${SH}<g ${O}><path d="M30 20h60l-8 80q-1 4-5 4H43q-4 0-5-4z" fill="#eef8ff"/><path d="M33 46h54l-5 54q-1 4-5 4H43q-4 0-5-4z" fill="#5ab4f0"/><path d="M42 56l3 36" fill="none" stroke="#fff"/></g>`,
 sleep:`${SH}<g ${O}><path d="M58 18a28 28 0 1 0 30 40a24 24 0 0 1-30-40z" fill="#ffd166"/><path d="M74 16h12l-12 14h12M94 34h8l-8 9h8" fill="none"/><rect x="12" y="74" width="96" height="26" rx="13" fill="#fff"/><path d="M28 86q32 8 64 0" fill="none" stroke="#cfd6f0"/></g>`,
 snack:`${SH}<g ${O}><path d="M60 34q-6-14-18-14" fill="none"/><path d="M60 30q10-16 26-10q-8 14-26 10z" fill="#3aa86b"/><path d="M60 38q-16-10-32 2q-16 16-6 42q10 22 26 20q6-2 12 0q16 2 26-20q10-26-6-42q-16-12-26-2z" fill="#e94f64"/><path d="M34 52q4-8 12-8" fill="none" stroke="#fff" stroke-width="5"/></g>`,
+bedmake:`${SH}<g ${O}><rect x="12" y="40" width="12" height="62" rx="5" fill="#a86a43"/><rect x="96" y="62" width="12" height="40" rx="5" fill="#a86a43"/><rect x="18" y="68" width="86" height="20" rx="6" fill="#fff"/><ellipse cx="38" cy="62" rx="14" ry="8" fill="#fff"/><path d="M52 58h48q4 0 4 4v26H52z" fill="#ff7a59"/><path d="M60 66h38M60 76h38" fill="none" stroke="#fff"/></g>`,
+pet:`${SH}<g ${O}><path d="M20 72h80l-8 24q-2 6-8 6H36q-6 0-8-6z" fill="#5b8def"/><ellipse cx="60" cy="72" rx="40" ry="8" fill="#c47a4a"/><g fill="#a86a43"><ellipse cx="60" cy="40" rx="13" ry="11"/><circle cx="42" cy="26" r="6"/><circle cx="54" cy="18" r="6"/><circle cx="68" cy="18" r="6"/><circle cx="79" cy="26" r="6"/></g></g>`,
+plants:`${SH}<g ${O}><path d="M22 72h44l-5 30H27z" fill="#e8913a"/><path d="M44 72q-2-24-20-30q16-2 22 14q4-24 22-26q-4 20-22 42z" fill="#3aa86b"/><path d="M84 36l-22-12" fill="none" stroke-width="6"/><rect x="80" y="30" width="28" height="26" rx="7" fill="#5ab4f0"/><path d="M90 30q4-10 14 0" fill="none"/><path d="M60 34q-4 6 0 8q4-2 0-8zM54 46q-4 6 0 8q4-2 0-8z" fill="#5ab4f0"/></g>`,
+table:`${SH}<g ${O}><circle cx="60" cy="64" r="30" fill="#fff"/><circle cx="60" cy="64" r="18" fill="#eef4ff"/><path d="M12 32v16q0 8 6 8t6-8V32M18 32v18M18 56v42" fill="none"/><ellipse cx="102" cy="42" rx="7" ry="11" fill="#c8d2e0"/><path d="M102 53v45" fill="none"/></g>`,
+laundry:`${SH}<g ${O}><path d="M30 44q4-14 18-6q8-12 20-2q12-8 20 4l2 8H28z" fill="#ff8fb1"/><path d="M20 48h80l-8 50q-1 4-5 4H33q-4 0-5-4z" fill="#ffd166"/><path d="M26 62h68M28 76h64M30 90h60" fill="none"/></g>`,
+homework:`${SH}<g ${O}><rect x="18" y="18" width="60" height="82" rx="6" fill="#fff"/><path d="M28 36h40M28 50h40M28 64h26" fill="none"/><g transform="rotate(30 84 60)"><rect x="76" y="20" width="16" height="64" rx="3" fill="#ffd166"/><path d="M76 84l8 16 8-16z" fill="#f2c29b"/><rect x="76" y="14" width="16" height="10" rx="3" fill="#ff8fb1"/></g></g>`,
+trash:`${SH}<g ${O}><rect x="30" y="36" width="60" height="66" rx="6" fill="#3aa86b"/><rect x="24" y="26" width="72" height="12" rx="5" fill="#2e8a57"/><rect x="50" y="18" width="20" height="10" rx="3" fill="#2e8a57"/><path d="M46 50v40M60 50v40M74 50v40" fill="none"/></g>`,
 star:`<g ${O}><path d="M60 8l15 31 34 5-25 24 6 34-30-16-30 16 6-34-25-24 34-5z" fill="#ffd166"/><path d="M44 50q4 4 8 0M68 50q4 4 8 0M50 66q10 8 20 0" fill="none"/></g>`
 };
 const CARDS={
-wake:{en:"Wake up",et:"Ärka üles"},toilet:{en:"Go to the toilet",et:"Käi tualetis"},hands:{en:"Wash hands",et:"Pese käsi"},face:{en:"Wash face",et:"Pese nägu"},dress:{en:"Get dressed",et:"Pane riidesse"},teeth:{en:"Brush teeth",et:"Pese hambaid"},breakfast:{en:"Eat breakfast",et:"Söö hommikusööki"},hair:{en:"Brush hair",et:"Kammi juukseid"},shoes:{en:"Shoes on",et:"Kingad jalga"},coat:{en:"Coat on",et:"Jope selga"},hat:{en:"Hat on",et:"Müts pähe"},bag:{en:"Take your bag",et:"Võta kott"},bottle:{en:"Water bottle",et:"Võta joogipudel"},door:{en:"Out the door!",et:"Uksest välja!"},car:{en:"Into the car",et:"Istu autosse"},toys:{en:"Tidy the toys",et:"Korista mänguasjad"},bath:{en:"Bath time",et:"Mine vanni"},pyjamas:{en:"Pyjamas on",et:"Pidžaama selga"},book:{en:"Story time",et:"Unejutt"},cuddle:{en:"Big cuddle",et:"Suur kallistus"},water:{en:"Drink water",et:"Joo vett"},sleep:{en:"Lights out",et:"Tuled kustu"},snack:{en:"Have a snack",et:"Söö vahepala"}
+wake:{en:"Wake up",et:"Ärka üles"},toilet:{en:"Go to the toilet",et:"Käi tualetis"},hands:{en:"Wash hands",et:"Pese käsi"},face:{en:"Wash face",et:"Pese nägu"},dress:{en:"Get dressed",et:"Pane riidesse"},teeth:{en:"Brush teeth",et:"Pese hambaid"},breakfast:{en:"Eat breakfast",et:"Söö hommikusööki"},hair:{en:"Brush hair",et:"Kammi juukseid"},shoes:{en:"Shoes on",et:"Kingad jalga"},coat:{en:"Coat on",et:"Jope selga"},hat:{en:"Hat on",et:"Müts pähe"},bag:{en:"Take your bag",et:"Võta kott"},bottle:{en:"Water bottle",et:"Võta joogipudel"},door:{en:"Out the door!",et:"Uksest välja!"},car:{en:"Into the car",et:"Istu autosse"},toys:{en:"Tidy the toys",et:"Korista mänguasjad"},bath:{en:"Bath time",et:"Mine vanni"},pyjamas:{en:"Pyjamas on",et:"Pidžaama selga"},book:{en:"Story time",et:"Unejutt"},cuddle:{en:"Big cuddle",et:"Suur kallistus"},water:{en:"Drink water",et:"Joo vett"},sleep:{en:"Lights out",et:"Tuled kustu"},snack:{en:"Have a snack",et:"Söö vahepala"},bedmake:{en:"Make the bed",et:"Tee voodi korda"},pet:{en:"Feed the pet",et:"Toida lemmikut"},plants:{en:"Water the plants",et:"Kasta lilli"},table:{en:"Set the table",et:"Kata laud"},laundry:{en:"Clothes in the basket",et:"Riided korvi"},homework:{en:"Homework",et:"Kodutöö"},trash:{en:"Take out the rubbish",et:"Vii prügi välja"},star:{en:"Your own task",et:"Oma tegevus"}
 };
-const svg=(k,cls='pic')=>`<svg class="${cls}" viewBox="0 0 120 120" aria-hidden="true">${ART[k]||''}</svg>`;
-const ICON={home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>',list:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>',gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>',up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>',down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',del:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>'};
+const svg=(k,cls='pic')=>k&&k.startsWith('p:')?`<img class="${cls} ph" src="${(S.photos||{})[k]||''}" alt="">`:`<svg class="${cls}" viewBox="0 0 120 120" aria-hidden="true">${ART[k]||ART.star}</svg>`;
+const ICON={lock:'<svg class="lki" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',camera:'<svg class="pic" viewBox="0 0 24 24" fill="none" stroke="#241f3d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>',list:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>',gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>',up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>',down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',del:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>'};
 
 /* ---------- State (kept only in this browser) ---------- */
 const DEF=()=>({lang:(navigator.language||'en').toLowerCase().startsWith('et')?'et':'en',name:'',speak:true,sound:true,listMode:false,
@@ -199,15 +253,21 @@ const DEF=()=>({lang:(navigator.language||'en').toLowerCase().startsWith('et')?'
   {id:'leave',color:'#3db3e3',icon:'door',steps:[['toilet',2],['shoes',3],['coat',2],['hat',1],['bag',1],['door',0]]},
   {id:'bed',color:'#8b7fe8',icon:'sleep',steps:[['toys',5],['bath',15],['pyjamas',3],['teeth',3],['book',10],['cuddle',0],['sleep',0]]}
  ].map(r=>({...r,name:'',steps:r.steps.map(([c,m])=>({c,m,label:''}))})),
- prog:{}});
+ prog:{},photos:{},unlocked:false});
 const KEY='littlesteps.v1';
 let S;try{S=Object.assign(DEF(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){S=DEF()}
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S));return true}catch(e){return false}};
 const day=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
 const t=(k,v={})=>((STR[S.lang]||STR.en)[k]??STR.en[k]??k).replace(/\{(\w)\}/g,(_,x)=>v[x]??'');
+/* Free: the Morning routine. The one-time unlock opens everything else. The web version is a free demo with everything open. */
+const NATIVE=!!(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform());
+const FREE='morning';
+const full=()=>!NATIVE||!!S.unlocked;
+const isLocked=r=>!full()&&r.id!==FREE;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rname=r=>r.name||t('r_'+r.id);
-const lab=s=>s.label||(CARDS[s.c]?.[S.lang]??CARDS[s.c]?.en??'');
+const COLORS=['#ff9f1c','#3db3e3','#8b7fe8','#4fc1a6','#ff6f8f','#f4c430','#e94f64','#7cb342'];
+const lab=s=>s.label||(CARDS[s.c]?.[S.lang]??CARDS[s.c]?.en??t('myPic'));
 const R=id=>S.routines.find(r=>r.id===id);
 const prog=id=>{if(S.prog.day!==day())S.prog={day:day()};return S.prog[id]||(S.prog[id]={i:0,at:Date.now(),done:false})};
 const suggest=()=>{const h=new Date().getHours();return h<11?'morning':h>=17?'bed':'leave'};
@@ -224,10 +284,11 @@ let view={v:'home'},tick=null,overPlayed=false;
 
 function home(){
  const sg=suggest();
- const order=[...S.routines].sort((a,b)=>(b.id===sg)-(a.id===sg));
+ const list=S.routines.filter(r=>r.steps.length);
+ const order=[...list].sort((a,b)=>(isLocked(a)-isLocked(b))||((b.id===sg)-(a.id===sg)));
  return `<div class="home"><h1>${S.name?t('hiName',{n:esc(S.name)}):t('hi')+'!'}<small>${t('pick')}</small></h1>
- <div class="tiles">${order.map(r=>{const p=S.prog.day===day()?S.prog[r.id]:null;const st=p?.done?t('doneToday'):p&&p.i>0?t('inProg'):'';
-  return `<button class="tile${r.id===sg&&!p?.done?' now':''}" style="--c:${r.color}" data-go="${r.id}">${r.id===sg&&!p?.done?`<span class="badge">${t('now')}</span>`:''}<span class="ico">${svg(r.icon)}</span><span class="tx"><b>${esc(rname(r))}</b><span class="st">${st}</span></span></button>`}).join('')}</div>
+ <div class="tiles">${order.map(r=>{const L=isLocked(r);const p=S.prog.day===day()?S.prog[r.id]:null;const st=L?t('locked'):p?.done?t('doneToday'):p&&p.i>0?t('inProg'):'';const now=!L&&r.id===sg&&!p?.done;
+  return `<button class="tile${now?' now':''}${L?' lk':''}" style="--c:${r.color}" ${L?'data-act="unlock"':`data-go="${r.id}"`}>${now?`<span class="badge">${t('now')}</span>`:''}<span class="ico">${svg(r.icon)}${L?`<span class="lock">${ICON.lock}</span>`:''}</span><span class="tx"><b>${esc(rname(r))}</b><span class="st">${st}</span></span></button>`}).join('')}</div>
  <div class="foot"><span class="hint">${t('holdHint')}</span><button class="gear" id="gear" aria-label="${t('grown')}">${ICON.gear}</button></div></div>`;
 }
 function run(id){
@@ -260,7 +321,7 @@ function startTimer(){
   if(f>=1){w.textContent=t('wait');if(!overPlayed){overPlayed=true;if(Date.now()-p.at<s.m*60000+3000)tone([[392,0,.9],[330,.25,1.2]])}}};
  up();tick=setInterval(up,1000);
 }
-function go(id){view={v:'run',id};const p=prog(id);if(p.done){S.prog[id]={i:0,at:Date.now(),done:false}}else if(p.i===0)p.at=Date.now();save();draw(true);const s=R(id).steps[prog(id).i];if(s)say(lab(s))}
+function go(id){const rr=R(id);if(!rr||!rr.steps.length)return;if(isLocked(rr))return openUnlock();view={v:'run',id};const p=prog(id);if(p.done){S.prog[id]={i:0,at:Date.now(),done:false}}else if(p.i===0)p.at=Date.now();save();draw(true);const s=R(id).steps[prog(id).i];if(s)say(lab(s))}
 function complete(){
  const r=R(view.id),p=prog(view.id);
  const st=document.createElement('div');st.className='star';st.innerHTML=svg('star');document.body.appendChild(st);setTimeout(()=>st.remove(),800);
@@ -270,7 +331,7 @@ function complete(){
 }
 
 /* ---------- Grown-up area ---------- */
-let edit={r:null,pick:false,reset:false};
+let edit={r:null,pick:false,reset:false,icon:false,delR:false};
 function bindGear(){
  const g=document.getElementById('gear');if(!g)return;let h;
  const stop=()=>{clearTimeout(h);g.classList.remove('holding')};
@@ -279,13 +340,17 @@ function bindGear(){
  g.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openSheet()}};
  g.oncontextmenu=e=>e.preventDefault();
 }
-function openSheet(){edit={r:edit.r||S.routines[0].id,pick:false,reset:false};sheet.hidden=false;drawSheet()}
+function openSheet(){edit={r:R(edit.r)?edit.r:S.routines[0].id,pick:false,reset:false,icon:false,delR:false};sheet.hidden=false;drawSheet()}
 function closeSheet(){sheet.hidden=true;draw()}
+const pickGrid=(act)=>`<div class="pick">${Object.keys(CARDS).map(k=>`<button data-act="${act}" data-v="${k}"><span class="mini">${svg(k)}</span>${esc(CARDS[k][S.lang]||CARDS[k].en)}</button>`).join('')}${Object.keys(S.photos||{}).map(k=>`<button data-act="${act}" data-v="${k}"><span class="mini">${svg(k)}</span>${t('myPic')}</button>`).join('')}
+ <label class="photo${full()?'':' lk'}" ${full()?'':'data-act="unlock"'}>${full()?`<input type="file" accept="image/*" data-photo="${act}">`:''}<span class="mini">${ICON.camera}</span>${t('photo')}${full()?'':ICON.lock}</label></div>`;
 function drawSheet(){
- const r=R(edit.r);
+ const r=R(edit.r),L=isLocked(r);
  const mins=[0,1,2,3,4,5,7,10,15,20,30];
+ const y=sheet.querySelector('.pane')?.scrollTop||0;
  sheet.innerHTML=`<div class="pane" role="dialog" aria-modal="true" aria-label="${t('grown')}">
  <h2>${t('grown')}<button class="x" data-act="close" aria-label="${t('close')}">×</button></h2>
+ ${full()?'':`<button class="upsell" data-act="unlock"><span class="mini">${svg('star')}</span><span><b>${t('unlockT')}</b><small>${t('u2')}</small></span></button>`}
  <div class="set" style="margin-top:14px">
   <div class="fld"><label>${t('lang')}</label><div class="seg">${LANGS.map(([c,n])=>`<button data-act="lang" data-v="${c}" aria-pressed="${S.lang===c}">${n}</button>`).join('')}</div></div>
   <div class="fld"><label for="nm">${t('name')}</label><input type="text" id="nm" maxlength="24" value="${esc(S.name)}" autocomplete="off"></div>
@@ -293,19 +358,41 @@ function drawSheet(){
   <div class="fld"><label id="l-so">${t('sound')}</label><button class="sw" role="switch" aria-labelledby="l-so" aria-checked="${S.sound}" data-act="tog" data-v="sound"></button></div>
  </div>
  <h3>${t('routines')}</h3>
- <div class="tabs">${S.routines.map(x=>`<button data-act="tab" data-v="${x.id}" aria-pressed="${x.id===edit.r}"><span class="mini">${svg(x.icon)}</span>${esc(rname(x))}</button>`).join('')}</div>
+ <div class="tabs">${S.routines.map(x=>`<button data-act="tab" data-v="${x.id}" aria-pressed="${x.id===edit.r}"><span class="mini">${svg(x.icon)}</span>${esc(rname(x))}${isLocked(x)?ICON.lock:''}</button>`).join('')}<button data-act="newr" class="newr"><span class="mini plus">+</span>${t('newR')}${full()?'':ICON.lock}</button></div>
+ ${L?`<div class="set" style="margin-top:10px"><button class="upsell" data-act="unlock"><span class="mini">${svg(r.icon)}</span><span><b>${esc(rname(r))}: ${t('locked')}</b><small>${t('u1')}</small></span></button></div>`:`
  <div class="set" style="margin-top:10px">
   <div class="fld"><label for="rn">${t('rname')}</label><input type="text" id="rn" maxlength="30" value="${esc(r.name)}" placeholder="${esc(t('r_'+r.id))}"></div>
-  <ul class="steps">${r.steps.map((s,i)=>`<li><span class="mini">${svg(s.c)}</span><input type="text" data-lab="${i}" maxlength="34" value="${esc(s.label)}" placeholder="${esc(CARDS[s.c]?.[S.lang]||CARDS[s.c]?.en||'')}" aria-label="${esc(lab(s))}">
+  <div class="fld"><label>${t('colour')}</label><div class="sws">${COLORS.map(c=>`<button data-act="col" data-v="${c}" style="--c:${c}" aria-pressed="${r.color===c}" aria-label="${c}"></button>`).join('')}</div></div>
+  <div class="fld"><label>${t('picture')}</label><button class="iconbtn" data-act="iconpick" aria-pressed="${edit.icon}"><span class="mini">${svg(r.icon)}</span></button></div>
+  ${edit.icon?`<p class="note" style="margin-top:0">${t('chooseIcon')}</p>${pickGrid('seticon')}`:''}
+  ${r.steps.length?'':`<p class="note" style="margin:0">${t('empty')}</p>`}
+  <ul class="steps">${r.steps.map((s,i)=>`<li><span class="mini">${svg(s.c)}</span><input type="text" data-lab="${i}" maxlength="34" value="${esc(s.label)}" placeholder="${esc(CARDS[s.c]?.[S.lang]||CARDS[s.c]?.en||t('myPic'))}" aria-label="${esc(lab(s))}">
    <select data-min="${i}" aria-label="${t('min')}">${mins.map(m=>`<option value="${m}"${m===s.m?' selected':''}>${m?t('timer',{m}):t('noTimer')}</option>`).join('')}</select>
-   <span class="mv"><button data-act="up" data-i="${i}" aria-label="${t('up')}"${i?'':' disabled'}>${ICON.up}</button><button data-act="down" data-i="${i}" aria-label="${t('down')}"${i<r.steps.length-1?'':' disabled'}>${ICON.down}</button><button data-act="del" data-i="${i}" aria-label="${t('del')}"${r.steps.length>1?'':' disabled'}>${ICON.del}</button></span></li>`).join('')}</ul>
+   <span class="mv"><button data-act="up" data-i="${i}" aria-label="${t('up')}"${i?'':' disabled'}>${ICON.up}</button><button data-act="down" data-i="${i}" aria-label="${t('down')}"${i<r.steps.length-1?'':' disabled'}>${ICON.down}</button><button data-act="del" data-i="${i}" aria-label="${t('del')}">${ICON.del}</button></span></li>`).join('')}</ul>
   <button class="add" data-act="pick">+ ${t('add')}</button>
-  ${edit.pick?`<p class="note" style="margin-top:6px">${t('addPick')}</p><div class="pick">${Object.keys(CARDS).map(k=>`<button data-act="addc" data-v="${k}"><span class="mini">${svg(k)}</span>${esc(CARDS[k][S.lang]||CARDS[k].en)}</button>`).join('')}</div>`:''}
+  ${edit.pick?`<p class="note" style="margin-top:6px">${t('addPick')}</p>${pickGrid('addc')}`:''}
+  <p class="msg" id="smsg"></p>
  </div>
  <button class="danger" data-act="restart">${t('restart')}</button>
+ ${S.routines.length>1?`<button class="danger" data-act="delr">${edit.delR?t('delSure'):t('delR')}</button>`:''}`}
  <button class="danger" data-act="reset">${edit.reset?t('resetSure'):t('reset')}</button>
  <p class="note">${t('privacy')}</p></div>`;
+ sheet.querySelector('.pane').scrollTop=y;
 }
+/* Photos are shrunk to a small square and kept on this device only. */
+function addPhoto(file,act){
+ const img=new Image(),url=URL.createObjectURL(file);
+ img.onload=()=>{try{const n=300,c=document.createElement('canvas');c.width=c.height=n;const m=Math.min(img.width,img.height);
+  c.getContext('2d').drawImage(img,(img.width-m)/2,(img.height-m)/2,m,m,0,0,n,n);
+  const id='p:'+Date.now().toString(36);S.photos[id]=c.toDataURL('image/jpeg',.82);URL.revokeObjectURL(url);
+  const r=R(edit.r);if(act==='seticon'){r.icon=id;edit.icon=false}else{r.steps.push({c:id,m:0,label:''});edit.pick=false}
+  if(!save()){delete S.photos[id];if(act==='seticon')r.icon='star';else r.steps.pop();throw 0}
+  drawSheet();if(act!=='seticon'){const ins=sheet.querySelectorAll('[data-lab]');ins[ins.length-1]?.focus()}
+ }catch(e){drawSheet();const m=document.getElementById('smsg');if(m)m.textContent=t('photoErr')}};
+ img.onerror=()=>{const m=document.getElementById('smsg');if(m)m.textContent=t('photoErr')};
+ img.src=url;
+}
+function gcPhotos(){const used=new Set();S.routines.forEach(r=>{used.add(r.icon);r.steps.forEach(s=>used.add(s.c))});for(const k in S.photos)if(!used.has(k))delete S.photos[k]}
 sheet.addEventListener('input',e=>{
  const el=e.target,r=R(edit.r);
  if(el.id==='nm'){S.name=el.value.trim()}
@@ -313,30 +400,82 @@ sheet.addEventListener('input',e=>{
  else if(el.dataset.lab!=null){r.steps[+el.dataset.lab].label=el.value.trim()}
  save();
 });
-sheet.addEventListener('change',e=>{const el=e.target;if(el.dataset.min!=null){R(edit.r).steps[+el.dataset.min].m=+el.value;save()}});
+sheet.addEventListener('change',e=>{const el=e.target;if(el.dataset.min!=null){R(edit.r).steps[+el.dataset.min].m=+el.value;save()}if(el.dataset.photo&&el.files[0])addPhoto(el.files[0],el.dataset.photo)});
 sheet.addEventListener('click',e=>{
  if(e.target===sheet)return closeSheet();
  const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act,r=R(edit.r),i=+b.dataset.i;
  if(a==='close')return closeSheet();
+ if(a==='unlock'){e.preventDefault();return openUnlock()}
  if(a==='lang')S.lang=b.dataset.v;
  if(a==='tog')S[b.dataset.v]=!S[b.dataset.v];
- if(a==='tab'){edit.r=b.dataset.v;edit.pick=false}
+ if(a==='tab'){edit.r=b.dataset.v;edit.pick=edit.icon=edit.delR=false}
+ if(a==='newr'){if(!full())return openUnlock();const used=S.routines.map(x=>x.color);const nr={id:'r'+Date.now().toString(36),name:t('myR'),color:COLORS.find(c=>!used.includes(c))||COLORS[S.routines.length%COLORS.length],icon:'star',steps:[]};S.routines.push(nr);edit.r=nr.id;edit.pick=true;edit.icon=false;save();drawSheet();const n=document.getElementById('rn');n?.focus();n?.select();return}
+ if(a==='col')r.color=b.dataset.v;
+ if(a==='iconpick'){edit.icon=!edit.icon;edit.pick=false}
+ if(a==='seticon'){r.icon=b.dataset.v;edit.icon=false}
  if(a==='up'&&i>0)[r.steps[i-1],r.steps[i]]=[r.steps[i],r.steps[i-1]];
  if(a==='down'&&i<r.steps.length-1)[r.steps[i+1],r.steps[i]]=[r.steps[i],r.steps[i+1]];
- if(a==='del'&&r.steps.length>1)r.steps.splice(i,1);
- if(a==='pick')edit.pick=!edit.pick;
- if(a==='addc'){r.steps.push({c:b.dataset.v,m:0,label:''});tone([[784,0,.3]])}
+ if(a==='del')r.steps.splice(i,1);
+ if(a==='pick'){edit.pick=!edit.pick;edit.icon=false}
+ if(a==='addc'){r.steps.push({c:b.dataset.v,m:0,label:''});tone([[784,0,.3]]);if(b.dataset.v==='star'){save();drawSheet();const ins=sheet.querySelectorAll('[data-lab]');ins[ins.length-1]?.focus();return}}
  if(a==='restart'){S.prog[r.id]={i:0,at:Date.now(),done:false}}
- if(a==='reset'){if(!edit.reset){edit.reset=true;drawSheet();return}const keep=S.lang;S=DEF();S.lang=keep;edit={r:S.routines[0].id,pick:false,reset:false}}
+ if(a==='delr'){if(!edit.delR){edit.delR=true;drawSheet();return}S.routines=S.routines.filter(x=>x!==r);delete S.prog[r.id];edit={r:S.routines[0].id,pick:false,reset:false,icon:false,delR:false}}
+ else if(a!=='tab')edit.delR=false;
+ if(a==='reset'){if(!edit.reset){edit.reset=true;drawSheet();return}const keep={lang:S.lang,unlocked:S.unlocked};S=Object.assign(DEF(),keep);edit={r:S.routines[0].id,pick:false,reset:false,icon:false,delR:false}}
  else edit.reset=false;
  if(['up','down','del','restart','addc'].includes(a)){const p=S.prog[r.id];if(p&&p.i>=r.steps.length){p.i=Math.max(0,r.steps.length-1)}}
- save();drawSheet();
+ gcPhotos();save();drawSheet();
+});
+
+/* ---------- One-time unlock (App Store / Google Play), behind a grown-up check ---------- */
+const modal=document.getElementById('modal');
+let price='';
+const shop=m=>window.Capacitor.nativePromise('Store',m,{});
+async function syncStore(){
+ if(!NATIVE)return;
+ try{const r=await shop('isUnlocked');setUnlocked(r.unlocked)}catch(e){}
+ if(!price){try{const p=await shop('getProduct');price=p.price||''}catch(e){}}
+ try{window.Capacitor.Plugins?.Store?.addListener?.('entitlement',d=>setUnlocked(d.unlocked))}catch(e){}
+}
+function setUnlocked(v){const was=!!S.unlocked;S.unlocked=!!v;save();if(was!==S.unlocked){if(!sheet.hidden)drawSheet();draw()}}
+function openUnlock(){
+ modal.hidden=false;
+ modal.innerHTML=`<div class="pane unl" role="dialog" aria-modal="true" aria-label="${t('unlockT')}"><div class="big">${svg('star')}</div><h2>${t('unlockT')}</h2>
+ <ul class="ul">${['u1','u2','u3'].map(k=>`<li>${ICON.check}<span>${t(k)}</span></li>`).join('')}</ul><p class="note">${t('uPrice')}</p>
+ <button class="pill" data-act="buy">${price?t('buyP',{p:esc(price)}):t('buy')}</button><button class="pill ghost" data-act="restore">${t('restore')}</button><button class="lnk" data-act="mclose">${t('notNow')}</button><p class="msg" id="umsg"></p></div>`;
+}
+/* Grown-up check before any purchase: a times-table question a young child can't answer. */
+function gate(then){
+ const a=4+Math.floor(Math.random()*6),b=4+Math.floor(Math.random()*6),ok=a*b;
+ const opts=new Set([ok]);while(opts.size<4)opts.add(ok+(Math.floor(Math.random()*9)-4)*(1+Math.floor(Math.random()*2)));
+ const back=modal.innerHTML;
+ modal.innerHTML=`<div class="pane unl" role="dialog" aria-modal="true" aria-label="${t('gateT')}"><h2>${t('gateT')}</h2><p class="q">${t('gateQ',{a,b})}</p><div class="ans">${[...opts].sort(()=>Math.random()-.5).map(n=>`<button data-ans="${n}">${n}</button>`).join('')}</div><button class="lnk" data-act="mclose">${t('notNow')}</button></div>`;
+ modal.onanswer=n=>{modal.onanswer=null;if(n===ok){modal.innerHTML=back;then()}else{modal.hidden=true}};
+}
+async function doStore(m){
+ const msg=()=>document.getElementById('umsg');
+ if(!NATIVE){setUnlocked(true);modal.hidden=true;return}
+ modal.querySelectorAll('button').forEach(x=>x.disabled=true);msg().textContent=m==='purchase'?t('talking'):t('checking');
+ try{const r=await shop(m);
+  if(r.unlocked){setUnlocked(true);msg().textContent=t('thanks');tone([[523,0],[659,.12],[784,.24]]);setTimeout(()=>{modal.hidden=true},1400);return}
+  msg().textContent=r.pending?t('pending'):r.cancelled?'':m==='restore'?t('noBuy'):t('failBuy');
+ }catch(e){msg().textContent=t('noStore')}
+ modal.querySelectorAll('button').forEach(x=>x.disabled=false);
+}
+modal.addEventListener('click',e=>{
+ if(e.target===modal){modal.hidden=true;return}
+ const n=e.target.closest('[data-ans]');if(n&&modal.onanswer)return modal.onanswer(+n.dataset.ans);
+ const b=e.target.closest('[data-act]');if(!b)return;
+ if(b.dataset.act==='mclose')modal.hidden=true;
+ if(b.dataset.act==='buy')gate(()=>doStore('purchase'));
+ if(b.dataset.act==='restore')gate(()=>doStore('restore'));
 });
 
 /* ---------- Kid taps ---------- */
 app.addEventListener('click',e=>{
  const g=e.target.closest('[data-go]');if(g)return go(g.dataset.go);
  const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
+ if(a==='unlock')return openUnlock();
  if(a==='home'){view={v:'home'};draw()}
  if(a==='done')complete();
  if(a==='say'){const r=R(view.id),s=r.steps[prog(view.id).i];say(lab(s))}
@@ -344,9 +483,9 @@ app.addEventListener('click',e=>{
  if(a==='again')go(b.dataset.id);
  if(a==='tickrow'){const p=prog(view.id),i=+b.dataset.i;if(i===p.i)complete();else if(i<p.i){p.i=i;p.at=Date.now();save();draw()}}
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sheet.hidden)closeSheet()});
+document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!modal.hidden)modal.hidden=true;else if(!sheet.hidden)closeSheet()});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)draw()});
-draw();
+draw();syncStore();
 }
 </script>
 </body>

@@ -1,0 +1,20 @@
+{
+  "appId": "ee.silgrowth.littlesteps",
+  "appName": "Little Steps",
+  "webDir": "www",
+  "backgroundColor": "#fff8ee",
+  "ios": {
+    "contentInset": "never",
+    "scheme": "LittleSteps",
+    "limitsNavigationsToAppBoundDomains": false
+  },
+  "plugins": {
+    "SystemBars": {
+      "style": "DEFAULT",
+      "insetsHandling": "css"
+    }
+  },
+  "android": {
+    "backgroundColor": "#fff8ee"
+  }
+}
